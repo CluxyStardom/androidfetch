@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WidgetConfigActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/widget_title">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:padding="16dp"
+                android:useDefaultMargins="true">
+
+                <TextView
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:layout_columnSpan="2"
+                    android:layout_gravity="fill_horizontal"
+                    android:text="@string/show_information" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/checkbox_manufacturer"
+                    android:layout_gravity="fill_horizontal"
+                    android:text="@string/manufacturer" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/checkbox_model"
+                    android:layout_gravity="fill_horizontal"
+                    android:text="@string/model" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/checkbox_brand"
+                    android:layout_gravity="fill_horizontal"
+                    android:text="@string/brand" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/checkbox_product"
+                    android:layout_gravity="fill_horizontal"
+                    android:text="@string/product" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/checkbox_hardware"
+                    android:layout_gravity="fill_horizontal"
+                    android:text="@string/hardware" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/checkbox_android_version"
+                    android:layout_gravity="fill_horizontal"
+                    android:text="@string/android_version" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/checkbox_api_level"
+                    android:layout_gravity="fill_horizontal"
+                    android:text="@string/api_level" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/checkbox_uptime"
+                    android:layout_gravity="fill_horizontal"
+                    android:text="@string/uptime" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/checkbox_kernel_version"
+                    android:layout_gravity="fill_horizontal"
+                    android:text="@string/kernel_version" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/checkbox_ram"
+                    android:layout_gravity="fill_horizontal"
+                    android:text="@string/ram_usage" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/checkbox_storage"
+                    android:layout_gravity="fill_horizontal"
+                    android:text="@string/storage" />
+
+            </GridLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/text_color">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/color_dropdown"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        tools:ignore="LabelFor" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/font_size" />
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/slider_font_size"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:stepSize="1"
+                    android:valueFrom="10"
+                    android:valueTo="20" />
+
+                <TextView
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/background_transparency" />
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/slider_transparency"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:stepSize="1"
+                    android:valueFrom="0"
+                    android:valueTo="255" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="64dp"
+            android:text="@string/save" />
+
+    </LinearLayout>
+</ScrollView>

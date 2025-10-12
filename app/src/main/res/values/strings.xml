@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">androidfetch</string>
+    <string name="widget_system_info_title">System Info</string>
+    <string name="welcome_message">Welcome to androidfetch by cluxystardom</string>
+    <string name="tiktok_link">follow me on tiktok</string>
+    <string name="add_widget_prompt">add a widget to get started</string>
+
+    <string name="widget_title">Widget Title</string>
+    <string name="show_information">Show Information:</string>
+    <string name="manufacturer">Manufacturer</string>
+    <string name="model">Model</string>
+    <string name="brand">Brand</string>
+    <string name="product">Product</string>
+    <string name="hardware">Hardware</string>
+    <string name="android_version">Android Version</string>
+    <string name="api_level">API Level</string>
+    <string name="uptime">Uptime</string>
+    <string name="kernel_version">Kernel Version</string>
+    <string name="ram_usage">RAM Usage</string>
+    <string name="storage">Storage</string>
+    <string name="text_color">Text Color</string>
+    <string name="font_size">Font Size:</string>
+    <string name="background_transparency">Background Transparency:</string>
+    <string name="save">Save</string>
+</resources>
