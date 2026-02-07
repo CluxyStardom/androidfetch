@@ -22,4 +22,6 @@
     <string name="font_size">Font Size:</string>
     <string name="background_transparency">Background Transparency:</string>
     <string name="save">Save</string>
+    <string name="custom_image">Custom Image</string>
+    <string name="select_image">Select Image</string>
 </resources>

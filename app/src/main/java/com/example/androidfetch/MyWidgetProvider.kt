@@ -6,7 +6,10 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.os.StatFs
@@ -14,6 +17,7 @@ import android.os.SystemClock
 import android.util.TypedValue
 import android.widget.RemoteViews
 import java.io.File
+import java.io.InputStream
 import java.text.DecimalFormat
 
 class MyWidgetProvider : AppWidgetProvider() {
@@ -43,6 +47,7 @@ class MyWidgetProvider : AppWidgetProvider() {
             edit.remove("text_color_$appWidgetId")
             edit.remove("background_transparency_$appWidgetId")
             edit.remove("font_size_$appWidgetId")
+            edit.remove("image_uri_$appWidgetId")
             edit.apply()
         }
     }
@@ -66,7 +71,18 @@ class MyWidgetProvider : AppWidgetProvider() {
         val title = prefs.getString("widget_title_$appWidgetId", "Androidfetch by cluxystardom")
         views.setTextViewText(R.id.widget_title, title)
 
-        views.setImageViewResource(R.id.widget_logo, R.drawable.android_icon)
+        val imageUriString = prefs.getString("image_uri_$appWidgetId", null)
+        if (imageUriString != null) {
+            try {
+                val imageUri = Uri.parse(imageUriString)
+                val bitmap = decodeSampledBitmapFromUri(context, imageUri, 100, 100)
+                views.setImageViewBitmap(R.id.widget_logo, bitmap)
+            } catch (e: Exception) {
+                views.setImageViewResource(R.id.widget_logo, R.drawable.android_icon)
+            }
+        } else {
+            views.setImageViewResource(R.id.widget_logo, R.drawable.android_icon)
+        }
 
         val infoBuilder = StringBuilder()
         if (prefs.getBoolean("show_manufacturer_$appWidgetId", true)) {
@@ -144,5 +160,42 @@ class MyWidgetProvider : AppWidgetProvider() {
         val df = DecimalFormat("#.##")
 
         return "${df.format(availableGb)} GB / ${df.format(totalGb)} GB"
+    }
+
+    private fun decodeSampledBitmapFromUri(context: Context, uri: Uri, reqWidth: Int, reqHeight: Int): Bitmap? {
+        var inputStream: InputStream? = null
+        try {
+            // First decode with inJustDecodeBounds=true to check dimensions
+            val options = BitmapFactory.Options()
+            options.inJustDecodeBounds = true
+            inputStream = context.contentResolver.openInputStream(uri)
+            BitmapFactory.decodeStream(inputStream, null, options)
+            inputStream?.close()
+
+            // Calculate inSampleSize
+            options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight)
+
+            // Decode bitmap with inSampleSize set
+            options.inJustDecodeBounds = false
+            inputStream = context.contentResolver.openInputStream(uri)
+            return BitmapFactory.decodeStream(inputStream, null, options)
+        } finally {
+            inputStream?.close()
+        }
+    }
+
+    private fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
+        val (height: Int, width: Int) = options.run { outHeight to outWidth }
+        var inSampleSize = 1
+
+        if (height > reqHeight || width > reqWidth) {
+            val halfHeight: Int = height / 2
+            val halfWidth: Int = width / 2
+
+            while (halfHeight / inSampleSize >= reqHeight && halfWidth / inSampleSize >= reqWidth) {
+                inSampleSize *= 2
+            }
+        }
+        return inSampleSize
     }
 }

@@ -1,21 +1,31 @@
 package com.example.androidfetch
 
-import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.content.Intent
-import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
+import android.widget.ImageView
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.slider.Slider
 import com.google.android.material.textfield.TextInputEditText
 
-class WidgetConfigActivity : Activity() {
+class WidgetConfigActivity : AppCompatActivity() {
 
     private var appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
+    private var imageUri: Uri? = null
+
+    private val selectImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        uri?.let {
+            imageUri = it
+            findViewById<ImageView>(R.id.image_preview).setImageURI(it)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +60,17 @@ class WidgetConfigActivity : Activity() {
         findViewById<MaterialCheckBox>(R.id.checkbox_ram).isChecked = prefs.getBoolean("show_ram_$appWidgetId", true)
         findViewById<MaterialCheckBox>(R.id.checkbox_storage).isChecked = prefs.getBoolean("show_storage_$appWidgetId", true)
 
+        val imagePreview = findViewById<ImageView>(R.id.image_preview)
+        val imageUriString = prefs.getString("image_uri_$appWidgetId", null)
+        if (imageUriString != null) {
+            imageUri = Uri.parse(imageUriString)
+            imagePreview.setImageURI(imageUri)
+        }
+
+        findViewById<Button>(R.id.button_select_image).setOnClickListener {
+            selectImageLauncher.launch("image/*")
+        }
+
         val colorNames = resources.getStringArray(R.array.color_names)
         val colorDropdown = findViewById<AutoCompleteTextView>(R.id.color_dropdown)
         val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, colorNames)
@@ -81,6 +102,14 @@ class WidgetConfigActivity : Activity() {
             edit.putBoolean("show_kernel_version_$appWidgetId", findViewById<MaterialCheckBox>(R.id.checkbox_kernel_version).isChecked)
             edit.putBoolean("show_ram_$appWidgetId", findViewById<MaterialCheckBox>(R.id.checkbox_ram).isChecked)
             edit.putBoolean("show_storage_$appWidgetId", findViewById<MaterialCheckBox>(R.id.checkbox_storage).isChecked)
+
+            if (imageUri != null) {
+                edit.putString("image_uri_$appWidgetId", imageUri.toString())
+                val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                context.contentResolver.takePersistableUriPermission(imageUri!!, takeFlags)
+            } else {
+                edit.remove("image_uri_$appWidgetId")
+            }
 
             val selectedColor = when (colorDropdown.text.toString()) {
                 "Red" -> ContextCompat.getColor(context, R.color.text_red)
